@@ -1,0 +1,8 @@
+.adDiv {
+  margin-top: 0.5rem;
+}
+.adDiv div {
+  border-radius: 0.3rem;
+  margin-bottom: 0.2rem;
+  overflow: hidden;
+}

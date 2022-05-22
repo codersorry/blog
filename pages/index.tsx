@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Header from "../components/Header";
-import { Row, Col, List, Divider } from "antd";
+import Author from "../components/Author";
+import Advert from "../components/Advert";
+import Footer from "../components/Footer";
+import { Row, Col, List } from "antd";
 import {
   CalendarOutlined,
   FolderOutlined,
@@ -69,9 +72,12 @@ const Home: NextPage = () => {
           />
         </Col>
         <Col className="commRight" xs={0} sm={0} md={7} lg={5} xl={4}>
-          Right
+          <Author />
+          <Advert />
         </Col>
       </Row>
+
+      <Footer />
     </div>
   );
 };
