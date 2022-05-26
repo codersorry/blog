@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import type { NextPage } from "next";
-import axios from "axios";
 import Head from "next/head";
 import Link from "next/link";
 import Header from "../components/Header";
@@ -14,20 +13,32 @@ import {
   FireOutlined,
 } from "@ant-design/icons";
 import styles from "../styles/pages/index.module.css";
+import { getArticleList } from "../services";
+import timeTrans from "../utils/tools/timeTrans";
 
-const Home: NextPage = (props) => {
+import { marked } from "marked";
+import hljs from "highlight.js";
+import "highlight.js/styles/monokai-sublime.css";
+
+interface PropsType {
+  articleList?: [];
+}
+
+const Home: NextPage = (props: PropsType) => {
   const [myList, setMyList] = useState(props.articleList);
 
-  function timeTrans(time: any, type: number) {
-    let date: any = new Date(new Date(time).getTime() + 8 * 3600 * 1000);
-    date = date.toJSON();
-    if (type === 1) {
-      date = date.substring(0, 10);
-    } else {
-      date = date.substring(0, 19).replace("T", " ");
-    }
-    return date;
-  }
+  const renderer = new marked.Renderer();
+  marked.setOptions({
+    renderer: renderer,
+    gfm: true,
+    pedantic: false,
+    sanitize: false,
+    breaks: false,
+    smartLists: true,
+    highlight: function (code: any) {
+      return hljs.highlightAuto(code).value;
+    },
+  });
 
   return (
     <div>
@@ -64,7 +75,10 @@ const Home: NextPage = (props) => {
                     {item.view_count}
                   </span>
                 </div>
-                <div className={styles.listContext}>{item.introduce}</div>
+                <div
+                  className={styles.listContext}
+                  dangerouslySetInnerHTML={{ __html: marked(item.introduce) }}
+                ></div>
               </List.Item>
             )}
           />
@@ -81,8 +95,8 @@ const Home: NextPage = (props) => {
 };
 
 export async function getServerSideProps() {
-  const res = await axios("http://127.0.0.1:7001/default/getArticleList");
-  const articleList = res.data.data;
+  const res = await getArticleList();
+  const articleList = res.data;
   return {
     props: { articleList },
   };

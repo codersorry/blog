@@ -7,7 +7,7 @@ import {
   FolderOutlined,
   FireOutlined,
 } from "@ant-design/icons";
-import axios from "axios";
+
 import { marked } from "marked";
 import hljs from "highlight.js";
 import "highlight.js/styles/monokai-sublime.css";
@@ -18,6 +18,7 @@ import Author from "../components/Author";
 import Advert from "../components/Advert";
 import Footer from "../components/Footer";
 import styles from "../styles/pages/detailed.module.css";
+import { getArticleById } from "../services/detailed";
 
 const Detailed: NextPage = (props) => {
   const tocify = new Tocify();
@@ -108,9 +109,8 @@ const Detailed: NextPage = (props) => {
 
 export async function getServerSideProps(context: any) {
   const id = context.query.id;
-  const res = await axios(`http://127.0.0.1:7001/default/getArticleById/${id}`);
-  const articleContent = res.data.data[0];
-  console.log(articleContent);
+  const res = await getArticleById(id);
+  const articleContent = res.data[0];
   return {
     props: { articleContent },
   };
