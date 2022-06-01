@@ -26,7 +26,6 @@ interface PropsType {
 
 const Home: NextPage = (props: PropsType) => {
   const [myList, setMyList] = useState(props.articleList);
-
   const renderer = new marked.Renderer();
   marked.setOptions({
     renderer: renderer,
