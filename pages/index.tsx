@@ -15,7 +15,7 @@ import {
 import styles from "../styles/pages/index.module.css";
 import { getArticleList } from "../services";
 import timeTrans from "../utils/tools/timeTrans";
-
+//@ts-ignore
 import { marked } from "marked";
 import hljs from "highlight.js";
 import "highlight.js/styles/monokai-sublime.css";
@@ -55,27 +55,33 @@ const Home: NextPage = (props: PropsType) => {
               <List.Item>
                 <div className={styles.listTitle}>
                   <Link
+                    //@ts-ignore
                     href={{ pathname: "/detailed", query: { id: item.id } }}
                   >
+                    {/* @ts-ignore */}
                     <a>{item.title}</a>
                   </Link>
                 </div>
                 <div className={styles.listIcon}>
                   <span>
                     <CalendarOutlined />
+                    {/* @ts-ignore */}
                     {timeTrans(item.addTime, 2)}
                   </span>
                   <span>
                     <FolderOutlined />
+                    {/* @ts-ignore */}
                     {item.typeName}
                   </span>
                   <span>
                     <FireOutlined />
+                    {/* @ts-ignore */}
                     {item.view_count}
                   </span>
                 </div>
                 <div
                   className={styles.listContext}
+                  //@ts-ignore
                   dangerouslySetInnerHTML={{ __html: marked(item.introduce) }}
                 ></div>
               </List.Item>
@@ -95,6 +101,7 @@ const Home: NextPage = (props: PropsType) => {
 
 export async function getServerSideProps() {
   const res = await getArticleList();
+  //@ts-ignore
   const articleList = res.data;
   return {
     props: { articleList },

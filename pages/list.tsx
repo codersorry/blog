@@ -50,7 +50,7 @@ const MyList: NextPage = (props: PropsType) => {
             header={<div>最新日志</div>}
             itemLayout="vertical"
             dataSource={myList}
-            renderItem={(item) => (
+            renderItem={(item: any) => (
               <List.Item>
                 <div className={styles.listTitle}>
                   <Link
@@ -92,6 +92,7 @@ const MyList: NextPage = (props: PropsType) => {
 export async function getServerSideProps(context: any) {
   const id = context.query.id;
   const res = await getListById(id);
+  //@ts-ignore
   const articleList = res.data;
   return {
     props: { articleList },

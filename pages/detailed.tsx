@@ -7,7 +7,7 @@ import {
   FolderOutlined,
   FireOutlined,
 } from "@ant-design/icons";
-
+//@ts-ignore
 import { marked } from "marked";
 import hljs from "highlight.js";
 import "highlight.js/styles/monokai-sublime.css";
@@ -23,7 +23,7 @@ import { getArticleById } from "../services/detailed";
 const Detailed: NextPage = (props) => {
   const tocify = new Tocify();
   const renderer = new marked.Renderer();
-
+  //@ts-ignore
   renderer.heading = function (text, level, raw) {
     const anchor = tocify.add(text, level);
     return `<a id="${anchor}" href="#${anchor}" class="anchor-fix"><h${level}>${text}</h${level}></a>\n`;
@@ -41,6 +41,7 @@ const Detailed: NextPage = (props) => {
     },
   });
 
+  //@ts-ignore
   let html = marked(props.articleContent.article_content);
 
   return (
@@ -110,6 +111,7 @@ const Detailed: NextPage = (props) => {
 export async function getServerSideProps(context: any) {
   const id = context.query.id;
   const res = await getArticleById(id);
+  //@ts-ignore
   const articleContent = res.data[0];
   return {
     props: { articleContent },
