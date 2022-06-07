@@ -6,8 +6,12 @@ import Link from "next/link";
 
 import {
   HomeOutlined,
-  YoutubeOutlined,
   SmileOutlined,
+  FormOutlined,
+  ShareAltOutlined,
+  MessageOutlined,
+  RocketOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 
 const Header = () => {
@@ -36,13 +40,33 @@ const Header = () => {
             </Menu.Item>
 
             <Menu.Item key="1">
-              <YoutubeOutlined />
-              视频
+              <FormOutlined />
+              项目
             </Menu.Item>
 
             <Menu.Item key="2">
+              <ShareAltOutlined />
+              分享
+            </Menu.Item>
+
+            <Menu.Item key="3">
               <SmileOutlined />
-              生活
+              互动
+            </Menu.Item>
+
+            <Menu.Item key="4">
+              <MessageOutlined />
+              留言
+            </Menu.Item>
+
+            <Menu.Item key="5">
+              <RocketOutlined />
+              历程
+            </Menu.Item>
+
+            <Menu.Item key="6">
+              <UserOutlined />
+              关于
             </Menu.Item>
           </Menu>
         </Col>

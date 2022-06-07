@@ -1,4 +1,4 @@
-export default function timeTrans(time: any, type: number) {
+export default function timeTrans(time: any, type?: number) {
   let date: any = new Date(new Date(time).getTime() + 8 * 3600 * 1000);
   date = date.toJSON();
   if (type === 1) {

@@ -1,13 +1,13 @@
-/* eslint-disable @next/next/no-html-link-for-pages */
+import React from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
+import Link from "next/link";
 import { Row, Col, Breadcrumb, Affix } from "antd";
 import {
   CalendarOutlined,
   FolderOutlined,
   FireOutlined,
 } from "@ant-design/icons";
-//@ts-ignore
 import { marked } from "marked";
 import hljs from "highlight.js";
 import "highlight.js/styles/monokai-sublime.css";
@@ -20,11 +20,17 @@ import Footer from "../components/Footer";
 import styles from "../styles/pages/detailed.module.css";
 import { getArticleById } from "../services/detailed";
 
-const Detailed: NextPage = (props) => {
+import { ArticleDetailType } from "../services/detailed";
+import timeTrans from "../utils/tools/timeTrans";
+
+type PropsType = {
+  articleContent?: ArticleDetailType;
+};
+
+const Detailed: NextPage = (props: PropsType) => {
   const tocify = new Tocify();
   const renderer = new marked.Renderer();
-  //@ts-ignore
-  renderer.heading = function (text, level, raw) {
+  renderer.heading = function (text: any, level: any, raw: any) {
     const anchor = tocify.add(text, level);
     return `<a id="${anchor}" href="#${anchor}" class="anchor-fix"><h${level}>${text}</h${level}></a>\n`;
   };
@@ -41,8 +47,7 @@ const Detailed: NextPage = (props) => {
     },
   });
 
-  //@ts-ignore
-  let html = marked(props.articleContent.article_content);
+  let html = marked(props.articleContent?.article_content);
 
   return (
     <div>
@@ -62,30 +67,27 @@ const Detailed: NextPage = (props) => {
           <div className={styles.breadDiv}>
             <Breadcrumb>
               <Breadcrumb.Item>
-                <a href="/">首页</a>
+                <Link href="/">首页</Link>
               </Breadcrumb.Item>
-              <Breadcrumb.Item>
-                <a href="/list">视频列表</a>
-              </Breadcrumb.Item>
-              <Breadcrumb.Item>
-                <a href="/">xxx</a>
-              </Breadcrumb.Item>
+              <Breadcrumb.Item>文章详情</Breadcrumb.Item>
             </Breadcrumb>
           </div>
           <div>
-            <div className={styles.detailedTitle}>我是标题我是标题</div>
+            <div className={styles.detailedTitle}>
+              {props.articleContent?.title}
+            </div>
             <div className={styles.listIcon}>
               <span>
                 <CalendarOutlined />
-                2022-5-20
+                {timeTrans(props.articleContent?.addTime)}
               </span>
               <span>
                 <FolderOutlined />
-                视频教程
+                {props.articleContent?.typeName}
               </span>
               <span>
                 <FireOutlined />
-                520人
+                {props.articleContent?.view_count}
               </span>
             </div>
             <div
@@ -111,7 +113,6 @@ const Detailed: NextPage = (props) => {
 export async function getServerSideProps(context: any) {
   const id = context.query.id;
   const res = await getArticleById(id);
-  //@ts-ignore
   const articleContent = res.data[0];
   return {
     props: { articleContent },
